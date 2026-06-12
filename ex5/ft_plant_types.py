@@ -1,26 +1,27 @@
 #!/usr/bin/env python3
 
 class Plant:
-    def __init__(self, name: str, height: float, age: int) -> None:
+    def __init__(self, name: str, height: float, age: int):
         self._name = name
-        self._height = float(height)
+        self.height = height
         self._age = age
 
-    def age(self, days: int) -> None:
-        self._age += days
-
-    def grow(self) -> None:
-        self._height += 2.1
-        self.show()
-
-    def show(self) -> None:
-        print(f"Plant created: {self._name}: "
-              f"{round(self._height, 1)} cm, "
+    def show(self):
+        print(f"{self._name.capitalize()}: "
+              f"{round(self.height, 1):.1f}cm, "
               f"{self._age} days old")
+
+    def grow(self, growth):
+        self.growth = growth
+        for _ in range(growth):
+            self.height += 2.1
+
+    def age(self, days):
+        self._age += days
 
 
 class Flower(Plant):
-    def __init__(self, name: str, height: float, age: int, color: str) -> None:
+    def __init__(self, name, height, age, color) -> None:
         super().__init__(name, height, age)
         self.color = color
         self.bloomed = False
@@ -29,55 +30,69 @@ class Flower(Plant):
         self.bloomed = True
 
     def show(self) -> None:
+        print("=== Flower")
         super().show()
         print(f"Color: {self.color}")
-        if self.bloomed:
-            print(f"{self._name} is blooming beautifully!")
-        else:
+        if (self.bloomed is True):
+            print(f"{self._name} is blooming beautifully")
+        elif (self.bloomed is False):
             print(f"{self._name} has not bloomed yet")
+        print()
 
 
 class Tree(Plant):
-    def __init__(self, name: str, height: float, age: int,
-                 trunk_diameter: float) -> None:
+    def __init__(self, name, height, age, trunk_diameter: float):
         super().__init__(name, height, age)
         self.trunk_diameter = trunk_diameter
 
-    def show(self) -> None:
-        super().show()
-        print(f"Trunk diameter: {self.trunk_diameter}cm")
-
     def produce_shade(self) -> None:
-        print(f"{self._name} now produces a shade of"
-              f"{round(self.get_height(), 1)}cm long and "
-              f"{round(self.trunk_diameter, 1)}cm wide")
+        print(
+            f"Tree {self._name} now produces a shade of "
+            f"{round(self.height, 1):.1f}cm long and "
+            f"{round(self.trunk_diameter, 1):.1f}cm wide."
+        )
+
+    def show(self):
+        print("=== Tree")
+        super().show()
+        print(f"Trunk diameter: {round(self.trunk_diameter, 2):.1f}cm")
+        self.produce_shade()
+        print()
 
 
 class Vegetable(Plant):
-    def __init__(self, name: str, height: float, age: int,
-                 harvest_season: str) -> None:
+    def __init__(self, name, height, age,
+                 harvest_season: str):
         super().__init__(name, height, age)
         self.harvest_season = harvest_season
         self.nutritional_value = 0
 
-    def grow(self) -> None:
-        super().grow()
-        self.nutritional_value += 1
-
-    def age(self, days: int) -> None:
-        super()._age(days)
+    def age(self, days) -> None:
+        super().age(days)
         self.nutritional_value += days
 
+    def grow(self, growth):
+        super().grow(growth)
+
     def show(self) -> None:
+        print("=== Vegetable")
         super().show()
-        print(f"Harvest Season: {self.harvest_season}")
-        print(f"Nutritional Value: {self.nutritional_value}")
+        print(f"Harvest season: {self.harvest_season}")
+        print(f"Nutritional value: {self.nutritional_value}")
+
+
+def ft_plant_types() -> None:
+    rose = Flower("Rose", 15, 10, "red")
+    oak = Tree("Oak", 200, 365, 5)
+    tomato = Vegetable("Tomato", 5, 10, "April")
+
+    rose.bloom()
+    rose.show()
+    oak.show()
+    tomato.grow(20)
+    tomato.age(20)
+    tomato.show()
 
 
 if __name__ == "__main__":
-    def ft_plant_types():
-        rose = Flower("Oak", 15, 10, "Brown")
-        rose.show()
-        # print("\n[asking the rose to bloom]")
-        rose.bloom()
-        rose.show()
+    ft_plant_types()
