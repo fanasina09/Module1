@@ -79,3 +79,8 @@ class Vegetable(Plant):
         super().show()
         print(f"Harvest season: {self.harvest_season}")
         print(f"Nutritional value: {self.nutritional_value}")
+
+
+if __name__ == "__main__":
+    def ft_garden_analytics() -> None:
+        
