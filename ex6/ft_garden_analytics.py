@@ -7,20 +7,36 @@ class Plant:
         self._age = age
         self._stats = Plant.Statistics()
 
+    class Statistics:
+        def __init__(self) -> None:
+            self._grow_call = 0
+            self._age_call = 0
+            self._show_call = 0
+
+        def display(self) -> None:
+            print(f"Stats: {self._grow_call} grow, "
+                  f"{self._age_call} age, "
+                  f"{self._show_call} show"
+                  )
+
+    def display_statistics(self) -> None:
+        self._stats.display()
+
     def show(self) -> None:
+        self._stats._show_call += 1
         print(f"{self._name.capitalize()}: "
               f"{round(self.height, 1):.1f}cm, "
               f"{self._age} days old")
 
     def grow(self, growth: int) -> None:
+        self._stats._grow_call += 1
         self.growth = growth
         for _ in range(growth):
             self.height += 2.1
-        self._stats.__grow_call += 1
 
     def age(self, days: int) -> None:
+        self._stats._age_call += 1
         self._age += days
-        self._stats.age_call += 1
 
     @staticmethod
     def older_than_year(age: int) -> bool:
@@ -31,21 +47,6 @@ class Plant:
     @classmethod
     def anonymous(cls) -> 'Plant':
         return cls("Unknown Plant", 0.0, 0)
-
-    class Statistics:
-        def __init__(self) -> None:
-            self.__grow_call = 0
-            self.age_call = 0
-            self.show_call = 0
-
-        def display(self) -> None:
-            print(f"Stats: {self.__grow_call} grow, "
-                  f"{self.age_call} age, "
-                  f"{self.show_call} show"
-                  )
-
-    def display_statistics(self) -> None:
-        self._stats.display()
 
 
 class Flower(Plant):
@@ -91,7 +92,7 @@ class Tree(Plant):
         print("=== Tree")
         super().show()
         print(f"Trunk diameter: {round(self.trunk_diameter, 2):.1f}cm")
-        self.produce_shade()
+        # self.produce_shade()
         print()
 
 
@@ -141,14 +142,26 @@ def ft_garden_analytics() -> None:
     rose = Flower("Rose", 15.0, 10, "Red")
     oak = Tree("Oak", 100.0, 100, 20.0)
     tomato = Vegetable("Tomato", 20.0, 30, "Summer")
-
+    # Handle the anonymous and the check age here
+    # It's not done yet but you should do it
+    anonymous = Plant.anonymous()
+    anonymous.show()
+    display_plant_statistics(anonymous)
+    rose.show()
+    display_plant_statistics(rose)
     rose.bloom()
+    rose.grow(5)
     rose.show()
     display_plant_statistics(rose)
     oak.show()
     display_plant_statistics(oak)
+    oak.produce_shade()
+    oak.show()
+    display_plant_statistics(oak)
     tomato.show()
+    tomato.grow(5)
     display_plant_statistics(tomato)
+    anonymous.show()
 
 
 if __name__ == "__main__":
